@@ -30,11 +30,11 @@ name: Build and Push Docker Image to GHCR
 on:
   push:
     branches:
-      - main  # Trigger only when pushing to main branch
+      - main  # Triggers only on push to main branch
 
 permissions:
   contents: read
-  packages: write  # Required to push to GitHub Container Registry
+  packages: write  # 🔐 Needed for pushing to GHCR using GITHUB_TOKEN
 
 jobs:
   build-and-push:
@@ -56,6 +56,7 @@ jobs:
           IMAGE_NAME=ghcr.io/sujalbazari18/health
           docker build . --tag $IMAGE_NAME:latest
           docker push $IMAGE_NAME:latest
+
 
 
 
