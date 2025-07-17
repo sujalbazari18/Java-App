@@ -3,11 +3,15 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  # or 'master' based on your repo
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Checkout code
