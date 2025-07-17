@@ -1,41 +1,36 @@
-name: Build and Push Docker Image
-
-on:
+name: Docker Image CI for GHCR
+on: 
   push:
-    branches:
-      - main
-
+    branches: main
 jobs:
-  build:
+  login:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
+      - uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/sujalbazari18/health:latest
+
+# on: 
+#   push
+# jobs:
+#   build_and_publish:
+#     runs-on: ubuntu-latest
+#     steps: 
+#       - uses: actions/checkout@v3
+#       - name: Build and push the image
+#         run : |
+#           docker login --username sujalbazari18 --password ${{ secrets.GH_PAT }} ghcr.io
+#           docker build . --tag ghcr.io/mert2m/actions-runner-controller:latest
+#           docker push ghcr.io/mert2m/actions-runner-controller:latest
+#   build-and-deploy:
+#     runs-on: self-hosted
+#     steps:
+#       - name: deploy on your cluster
+#         run: |
+#           kubectl --kubeconfig /Users/mertpolat/.kube/config apply - f /Users/mertpolat/actions-runner/_work/actions-runner-controller/actions-runner-controller/deployment.yaml
+
