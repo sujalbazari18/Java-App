@@ -23,8 +23,9 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ghcr.io/sujalbazari18/java-app:latest .
+          docker build -t ghcr.io/${{ github.actor }}/java-app:latest .
 
       - name: Push Docker Image
         run: |
-          docker push ghcr.io/sujalbazari18/java-app:latest
+          docker push ghcr.io/${{ github.actor }}/java-app:latest
+
