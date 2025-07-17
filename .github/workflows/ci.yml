@@ -34,7 +34,7 @@ on:
 
 permissions:
   contents: read
-  packages: write  # 🔐 Needed for pushing to GHCR using GITHUB_TOKEN
+  packages: write  
 
 jobs:
   build-and-push:
@@ -51,31 +51,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # - name: Build and push Docker image
+      #   run: |
+      #     IMAGE_NAME=ghcr.io/sujalbazari18/health
+      #     docker build . --tag $IMAGE_NAME:latest
+      #     docker push $IMAGE_NAME:latest
+
+
       - name: Build and push Docker image
-        run: |
-          IMAGE_NAME=ghcr.io/sujalbazari18/health
-          docker build . --tag $IMAGE_NAME:latest
-          docker push $IMAGE_NAME:latest
-
-
-
-
-# on: 
-#   push
-# jobs:
-#   build_and_publish:
-#     runs-on: ubuntu-latest
-#     steps: 
-#       - uses: actions/checkout@v3
-#       - name: Build and push the image
-#         run : |
-#           docker login --username sujalbazari18 --password ${{ secrets.GH_PAT }} ghcr.io
-#           docker build . --tag ghcr.io/mert2m/actions-runner-controller:latest
-#           docker push ghcr.io/mert2m/actions-runner-controller:latest
-#   build-and-deploy:
-#     runs-on: self-hosted
-#     steps:
-#       - name: deploy on your cluster
-#         run: |
-#           kubectl --kubeconfig /Users/mertpolat/.kube/config apply - f /Users/mertpolat/actions-runner/_work/actions-runner-controller/actions-runner-controller/deployment.yaml
-
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
