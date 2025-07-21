@@ -36,3 +36,15 @@ jobs:
           push: true
           tags: ghcr.io/sujalbazari18/health:latest
           platforms: linux/amd64,linux/arm64
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            docker pull ghcr.io/sujalbazari18/health:latest
+            docker stop health || true
+            docker rm health || true
+            docker run -d -p 80:8080 --name health ghcr.io/sujalbazari18/health:latest
