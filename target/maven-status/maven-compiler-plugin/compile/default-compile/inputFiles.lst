@@ -1,0 +1,5 @@
+/workspaces/Java-App/src/main/java/com/example/javaapp/controller/HomeController.java
+/workspaces/Java-App/src/main/java/com/example/javaapp/controller/HealthController.java
+/workspaces/Java-App/src/main/java/com/example/javaapp/dto/RequestInfo.java
+/workspaces/Java-App/src/main/java/com/example/javaapp/JavaAppApplication.java
+/workspaces/Java-App/src/main/java/com/example/javaapp/health/ApplicationHealthIndicator.java
